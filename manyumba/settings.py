@@ -7,6 +7,10 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Cloudinary configuration using environment variables
 cloudinary.config(
