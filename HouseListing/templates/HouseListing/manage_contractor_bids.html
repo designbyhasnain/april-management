@@ -1,0 +1,134 @@
+{% extends 'HouseListing/default_base.html' %}
+{% load static %}
+{% block header%} 
+{% endblock header %} 
+{% block body %}
+<div class="row">
+  <div class="col-lg-12">
+    
+    <!-- Whole row as a control -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title"><i class="icon-users mr-4"></i> Manage Bids & Contractor Requests</h5>
+        
+      </div>
+
+      <div class="card-body">
+          <ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified" id="myTab">
+            <li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active" data-toggle="tab"><i
+                  class="icon-user-tie mr-2"></i> Requests For Contractors From LandLords</a></li>
+            <li class="nav-item"><a href="#bottom-justified-divided-tab2" class="nav-link" data-toggle="tab"> <i
+                  class="icon-checkmark2 mr-2"></i> Active Contractor Bids</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+              <div class="row">
+                <div class="col-12">
+                  <div class="table-responsive">
+                    <table class="table datatable-responsive-row-control table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>#</th>
+                      <th>Property</th>
+                      <th>Service Type</th>
+                      <th>Description</th>
+                      <th>Created At</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+                    {% for contract in open_contractor_request %}
+                    <tr>
+                      <td>
+                      </td>
+                      <td>{{forloop.counter}}</td>
+                      <td>{{contract.property}}</td>
+                      <td>{{contract.service_type}}</td>
+                      <td>{{contract.description}}</td>
+                      <td>{{contract.created_at}}</td>                  
+                      <td>
+                        <a href="{% url 'HouseListing:approve_contract_for_bidding' contract.id %}" class="btn btn-outline-dark">
+                           Approve 
+                        </a>
+                      </td>
+                    </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="8">
+                            <div class="alert alert-warning text-center">
+                              <i class="icon-warning" style="margin-right: 10px"></i> You
+                              don't have any pending contractor requests
+                            </div>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                  
+                  </tbody>
+                     </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <div class="tab-pane fade" id="bottom-justified-divided-tab2">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table datatable-responsive-row-control table-striped table-hover">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>#</th>
+                            <th>Property</th>
+                            <th>Service Type</th>
+                            <th>Description</th>
+                            <th>Created At</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        
+                          {% for agent in open_for_bids %}
+                          <tr>
+                            <td>
+                            </td>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{agent.property}}</td>
+                            <td>{{agent.service_type}}</td>
+                            <td>{{agent.description}}</td>
+                            <td>{{agent.created_at}}</td>
+                            <td>
+                              <a href="{% url 'HouseListing:contract_details' agent.id %}" class="btn btn-sm btn-outline-dark">
+                                Manage
+                              </a>
+                            </td>
+                          </tr>
+                          {% empty %}
+                          <tr>
+                            <td colspan="8">
+                              <div class="alert alert-warning text-center">
+                                <i class="icon-warning" style="margin-right: 10px"></i> You
+                                don't have any active Bids
+                              </div>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <!-- /whole row as a control -->
+  </div>
+</div>
+
+
+{% endblock body %}

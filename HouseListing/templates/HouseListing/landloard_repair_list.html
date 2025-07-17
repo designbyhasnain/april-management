@@ -1,0 +1,187 @@
+{% extends 'HouseListing/default_base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'HouseListing/global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card my-4">
+                <div class="card-header header-elements-inline" style="background-color:rgb(50,65,72);color: #fff;;">
+                    <h5 class="card-title"><i class="icon-libreoffice"></i> &nbsp;All Repair / Fix Requests From Tenants</h5>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            <a class="list-icons-item" data-action="collapse"></a>
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="remove"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card my-4">
+                <div class="card-body">
+                    <ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified">
+                        <li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active"
+                                data-toggle="tab"><i class="icon-files-empty2 mr-2"></i> Incomplete Requests</a></li>
+                        <li class="nav-item"><a href="#bottom-justified-divided-tab2" class="nav-link"
+                                data-toggle="tab"> <i class="icon-checkmark2 mr-2"></i> Completed Requests.</a></li>
+                    </ul>
+
+                    
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><b>#</b></th>
+                                            <th>Unit</th>
+                                            <th>Priority</th>
+                                            <th>Details</th>
+                                            <th>Deadline</th>
+                                            <th>Status</th>
+                                            <th>Requested On</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% for repair in pending_requests %}
+
+                                    
+
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td> {{repair.lease.apartment.property_title}} : : No. {{repair.lease.house.house_code}}
+                                                <!-- eye -->
+                                                <a href="{% url 'HouseListing:house_details' repair.lease.house.id %}"
+                                                    target="_blank"
+                                                    style="color: black;"
+                                                    data-popup="tooltip" title="Go To House Unit">
+                                                    <i class="icon-eye4"></i>
+
+                                            </td>
+                                            <td>{{repair.request_priority}}</td>
+                                            <td>{{repair.request_details|truncatechars:50}}</td>
+                                            <td>{{repair.request_deadline}}</td>
+                                            <td>
+                                                {% if repair.request_status == 'Pending' %}
+                                                <span class="badge badge-warning">{{repair.request_status}}</span>
+                                                {% elif repair.request_status == 'Completed' %}
+                                                <span class="badge badge-success">{{repair.request_status}}</span>
+                                                {% else %}
+                                                <span class="badge badge-danger">{{repair.request_status}}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{repair.request_date}}</td>
+                                            
+                                        </tr>
+
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="7">
+                                                <div class="alert alert-warning text-center">
+                                                    <p>
+                                                        <i class="icon-warning mr-3"></i> No Requests.
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="bottom-justified-divided-tab2">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><b>#</b></th>
+                                            <th>Unit</th>
+                                            <th>Priority</th>
+                                            <th>Details</th>
+                                            <th>Deadline</th>
+                                            <th>Status</th>
+                                            <th>Requested On</th>
+                                            <th>Completed On</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                
+                                        {% for repair in completed_requests %}
+                                
+                                
+                                
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td> {{repair.lease.apartment.property_title}} : : No. {{repair.lease.house.house_code}}
+                                                <!-- eye -->
+                                                <a href="{% url 'HouseListing:house_details' repair.lease.house.id %}" target="_blank"
+                                                    style="color: black;" data-popup="tooltip" title="Go To House Unit">
+                                                    <i class="icon-eye4"></i>
+                                
+                                            </td>
+                                            <td>{{repair.request_priority}}</td>
+                                            <td>{{repair.request_details|truncatechars:50}}</td>
+                                            <td>{{repair.request_deadline}}</td>
+                                            <td>
+                                                {% if repair.request_status == 'Pending' %}
+                                                <span class="badge badge-warning">{{repair.request_status}}</span>
+                                                {% elif repair.request_status == 'Completed' %}
+                                                <span class="badge badge-success">{{repair.request_status}}</span>
+                                                {% else %}
+                                                <span class="badge badge-danger">{{repair.request_status}}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{repair.request_date}}</td>
+                                            <td>
+                                            
+                                                {% if repair.completion_date %}
+                                                {{repair.completion_date}}
+                                                {% else %}
+                                                Not Yet
+                                                {% endif %}
+                                            
+                                            </td>
+                                
+                                        </tr>
+                                
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="7">
+                                                <div class="alert alert-warning text-center">
+                                                    <p>
+                                                        <i class="icon-warning mr-3"></i> No Requests.
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                
+                                        {% endfor %}
+                                
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% block scripts %}
+{% endblock scripts %}
+
+{% endblock body %}

@@ -1,0 +1,182 @@
+{% extends 'HouseListing/default_base.html' %}
+{% load static %}
+{% block header %}
+<script src="{% static 'HouseListing/global_assets/js/plugins/loaders/blockui.min.js' %}"></script>
+
+{% endblock header %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card my-4">
+                <div class="card-header header-elements-inline" style="background-color:rgb(50,65,72);color: #fff;;">
+                    <h5 class="card-title"><i class="icon-libreoffice"></i> &nbsp;All Complaints From Tenants
+                    </h5>
+                    <div class="header-elements">
+                        <div class="list-icons">
+                            <a class="list-icons-item" data-action="collapse"></a>
+                            <a class="list-icons-item" data-action="reload"></a>
+                            <a class="list-icons-item" data-action="remove"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card my-4">
+                <div class="card-body">
+                    <ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified">
+                        <li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active"
+                                data-toggle="tab"><i class="icon-files-empty2 mr-2"></i> Pending Complaints</a></li>
+                        <li class="nav-item"><a href="#bottom-justified-divided-tab2" class="nav-link"
+                                data-toggle="tab"> <i class="icon-checkmark2 mr-2"></i> Resolved Complaints.</a></li>
+                    </ul>
+
+
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><b>#</b></th>
+                                            <th>Unit</th>
+                                            <th>Complaint Date</th>
+                                            <th>Details</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% for repair in pending_complaints %}
+
+
+
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td> {{repair.lease.apartment.property_title}} : : No.
+                                                {{repair.lease.house.house_code}}
+                                                <!-- eye -->
+                                                <a href="{% url 'HouseListing:house_details' repair.lease.house.id %}"
+                                                    target="_blank" style="color: black;" data-popup="tooltip"
+                                                    title="Go To House Unit">
+                                                    <i class="icon-eye4"></i>
+
+                                            </td>
+                                            <td>{{repair.complain_date}}</td>
+                                            <td>{{repair.complain_details|truncatechars:50}}</td>
+                                            <td>
+                                                {% if repair.complain_status == 'Pending' %}
+                                                <span class="badge badge-warning">{{repair.complain_status}}</span>
+                                                {% elif repair.complain_status == 'Resolved' %}
+                                                <span class="badge badge-success">{{repair.complain_status}}</span>
+                                                {% else %}
+                                                <span class="badge badge-danger">{{repair.complain_status}}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'HouseListing:resolve_complaint' repair.id %}"
+                                                class="btn btn-outline-dark btn-sm"
+                                                >
+                                                    Mark As Resolved
+                                                </a>
+                                            
+                                            </td>  
+                                          
+                                        </tr>
+
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="7">
+                                                <div class="alert alert-warning text-center">
+                                                    <p>
+                                                        <i class="icon-warning mr-3"></i> No Requests.
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="bottom-justified-divided-tab2">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><b>#</b></th>
+                                            <th>Unit</th>
+                                            <th>Complaint Date</th>
+                                            <th>Details</th>
+                                            <th>Status</th>
+                                            <th>Resolved On</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% for repair in completed_complaints %}
+
+
+
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td> {{repair.lease.apartment.property_title}} : : No.
+                                                {{repair.lease.house.house_code}}
+                                                <!-- eye -->
+                                                <a href="{% url 'HouseListing:house_details' repair.lease.house.id %}" target="_blank" style="color: black;"
+                                                    data-popup="tooltip" title="Go To House Unit">
+                                                    <i class="icon-eye4"></i>
+                                            
+                                            </td>
+                                            <td>{{repair.complain_date}}</td>
+                                            <td>{{repair.complain_details|truncatechars:50}}</td>
+                                            <td>
+                                                {% if repair.complain_status == 'Pending' %}
+                                                <span class="badge badge-warning">{{repair.complain_status}}</span>
+                                                {% elif repair.complain_status == 'Resolved' %}
+                                                <span class="badge badge-success">{{repair.complain_status}}</span>
+                                                {% else %}
+                                                <span class="badge badge-danger">{{repair.complain_status}}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{repair.resolution_date}}</td>
+
+                                        </tr>
+
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="7">
+                                                <div class="alert alert-warning text-center">
+                                                    <p>
+                                                        <i class="icon-warning mr-3"></i> No Requests.
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% block scripts %}
+{% endblock scripts %}
+
+{% endblock body %}

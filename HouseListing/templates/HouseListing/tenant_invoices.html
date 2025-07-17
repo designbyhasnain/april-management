@@ -1,0 +1,284 @@
+{% extends 'HouseListing/default_base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block header %}
+<script src="{% static 'HouseListing/global_assets/js/plugins/loaders/blockui.min.js '%}"></script>
+<script src="{% static 'HouseListing/global_assets/js/plugins/notifications/sweet_alert.min.js' %}"></script>
+
+<script src="{% static 'HouseListing/global_assets/js/plugins/forms/selects/select2.min.js '%}"></script>
+<script src="{% static 'HouseListing/global_assets/js/plugins/forms/styling/uniform.min.js '%}"></script>
+<script src="{% static 'HouseListing/global_assets/js/demo_pages/form_layouts.js '%}"></script>
+
+<style>
+    .balance-card {
+        background-color: #D22D3D;
+        border-color: white;
+        color: white;
+        border-radius: 10px;
+    }
+
+    .balance-card h1 {
+        font-weight: 900;
+
+    }
+
+    .balance-card h6 {
+        font-weight: 400;
+    }
+
+    .excess-card {
+        background-color: #282F3B;
+        border-color: white;
+        color: white;
+        border-radius: 10px;
+    }
+
+    .excess-card h1 {
+        font-weight: 900;
+
+    }
+
+    .excess-card h6 {
+        font-weight: 400;
+    }
+
+
+    .fw-medium {
+        font-weight: 500;
+    }
+
+    .avatar-sm {
+        height: 3rem;
+        width: 3rem;
+    }
+
+    .avatar-title {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        background-color: #B11226;
+        color: #fff;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        font-weight: 500;
+        height: 100%;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .card-animate {
+        -webkit-transition: all .4s;
+        transition: all .4s;
+    }
+
+    .card-animate:hover {
+        -webkit-transform: translateY(calc(-1.5rem / 5));
+        transform: translateY(calc(-1.5rem / 5));
+        -webkit-box-shadow: 0 5px 10px rgba(30, 32, 37, 0.12);
+        box-shadow: 0 5px 10px rgba(30, 32, 37, 0.12);
+    }
+
+    td {
+        font-weight: 600;
+    }
+    th {
+        font-weight: 900!important;
+    }
+</style>
+{% endblock header %}
+
+{% block body %}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-animate">
+                <div class="card-body">
+                    <h6 class="text-center font-weight-bold text-warning">Invoices</h6>
+
+                    <div class="d-flex justify-content-end">
+                        <!-- button to filter this months invoices -->
+
+                        
+                        {% if is_in_management == True %}
+                            {% if show_clear == True %}
+                            <a href="{% url 'HouseListing:management_invoices' %}" class="btn btn-outline-danger btn-sm">
+                                <i class="icon-cross2 mr-2"></i> Clear Filter
+                            </a>
+                                
+                            {% else %}
+                            <a href="{% url 'HouseListing:management_invoices' %}?current_month=1" class="btn btn-outline-dark btn-sm">
+                                <i class="icon-calendar3 mr-2"></i> This Month
+                            </a>
+                                
+                        {% endif %}                            
+                            {% else %}
+                            
+                            {% if show_clear == True %}
+                            <a href="{% url 'HouseListing:tenant_invoices' %}" class="btn btn-outline-danger btn-sm">
+                                <i class="icon-cross2 mr-2"></i> Clear Filter
+                            </a>
+                                
+                            {% else %}
+                            <a href="{% url 'HouseListing:tenant_invoices' %}?current_month=1" class="btn btn-outline-dark btn-sm">
+                                <i class="icon-calendar3 mr-2"></i> This Month
+                            </a>
+                                
+                            {% endif %}                            
+                        {% endif %}
+                            
+                            
+                    </div>
+
+                    <!-- we have to do two tabs. pending and paid -->
+
+
+                     
+                    <ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified">
+                        <li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active" data-toggle="tab"><i class="icon-files-empty2 mr-2"></i> Pending Invoices</a></li>
+                        <li class="nav-item"><a href="#bottom-justified-divided-tab2" class="nav-link" data-toggle="tab"> <i class="icon-folder-remove mr-2"></i> Paid Invoices</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>Invoice Id</th>
+                                        <th>House</th>
+                                        <th>Charge</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Balance</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </thead>
+
+                                    <tbody>
+
+                                        {% for invoice in pending_invoices %}
+
+                                        
+
+                                        <tr>
+                                            <td>#{{invoice.id}}</td>
+                                            <td>{{invoice.lease.apartment}} : : {{invoice.lease.house}}</td>
+                                            <td>{{invoice.billing_for}}</td>
+                                            <td>{{invoice.month}}</td>
+                                            <td> $ {{invoice.current_amount |intcomma}}</td>
+                                            <td> $ {{invoice.balance |intcomma}}</td>
+                                            <td>
+
+                                                {% if invoice.payment_status == 'Paid' %}
+                                                <span class="badge badge-success">
+                                                    Paid
+                                                </span>
+                                                {% else %}
+                                                <span class="badge badge-warning">
+                                                    Pending
+                                                </span>
+
+                                                {% endif %}
+
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'HouseListing:invoice_template' invoice.id %}" class="btn btn-outline-dark btn-sm">
+                                                    View
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        
+
+                                        {% empty %}
+
+                                        <tr>
+                                            <td colspan="7" class="text-center">
+                                                <div class="alert alert-warning">
+                                                    <h6 class="text-danger">No invoices found</h6>
+                                                </div>
+                                            </td>
+
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="bottom-justified-divided-tab2">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>Invoice Id</th>
+                                        <th>House</th>
+                                        <th>Charge</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Balance</th
+                                        <th>Status</th>
+                                        <th></th>
+                                    </thead>
+
+                                    <tbody>
+
+                                        {% for invoice in paid_invoices %}
+
+
+                                        <tr>
+                                            <td>#{{invoice.id}}</td>
+                                            <td>{{invoice.lease.apartment}} : : {{invoice.lease.house}}</td>
+                                            <td>{{invoice.billing_for}}</td>
+                                            <td>{{invoice.month}}</td>
+                                            <td> $ {{invoice.current_amount |intcomma}}</td>
+                                            <td> $ {{invoice.balance |intcomma}}</td>
+                                            <td>
+
+                                                {% if invoice.payment_status == 'Paid' %}
+                                                <span class="badge badge-success">
+                                                    Paid
+                                                </span>
+                                                {% else %}
+                                                <span class="badge badge-warning">
+                                                    Pending
+                                                </span>
+
+                                                {% endif %}
+
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'HouseListing:invoice_template' invoice.id %}" class="btn btn-outline-dark btn-sm">
+                                                    View
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        
+
+                                        {% empty %}
+
+                                        <tr>
+                                            <td colspan="7" class="text-center">
+                                                <div class="alert alert-warning">
+                                                    <h6 class="text-danger">No invoices found</h6>
+                                                </div>
+                                            </td>
+
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>            
+      
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,133 @@
+{% extends 'HouseListing/default_listing_base.html' %}
+{% load static %}
+{% block header%}
+<style>
+    a {
+        color: inherit;
+    }
+
+    .card-animate {
+        -webkit-transition: all .4s;
+        transition: all .4s;
+    }
+
+    .card-animate:hover {
+        -webkit-transform: translateY(calc(-1.5rem / 5));
+        transform: translateY(calc(-1.5rem / 5));
+        -webkit-box-shadow: 0 5px 10px rgba(30, 32, 37, 0.12);
+        box-shadow: 0 5px 10px rgba(30, 32, 37, 0.12);
+    }
+</style>
+{% endblock header %}
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card my-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="alert alert-success">
+                            <h6>
+                                My Active Contracts
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="row">
+
+                    {% for contract in my_contracts %}
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card single-cards" style="border-left: solid 1px teal;">
+                            <div class="card-body text-center">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+
+                                        <h5 class="text-info">
+                                            Service: {{contract.service_type}}
+                                        </h5>
+                                        <h6 class="text-warning">
+                                            {{contract.property}}
+                                        </h6>
+
+                                        <h6>
+                                            <i class="icon-calendar text-muted mr-1"></i>
+                                            {{contract.selected_bid.submitted_at}}
+                                        </h6>
+                                        
+                                    </div>
+
+
+                                    <div class="col-12 text-center">
+                                        <a href="" data-toggle="modal" data-target="#showModal{{contract.id}}"
+                                            class="btn btn-success btn-sm  btn-block">
+                                            <i class="icon-eye4"></i> Manage 
+                                        </a>
+
+                                    </div>
+
+                             
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-warning text-center">
+                            <p><i class="icon-warning mr-2"></i> You don't have any active contracts. Head over to available contracts and place bids on existing requests.
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                    
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+
+<script>
+    $(document).ready(() => {
+        let url = location.href.replace(/\/$/, "");
+
+        if (location.hash) {
+            const hash = url.split("#");
+            $('#myTab a[href="#' + hash[1] + '"]').tab("show");
+            url = location.href.replace(/\/#/, "#");
+            history.replaceState(null, null, url);
+            setTimeout(() => {
+                $(window).scrollTop(0);
+            }, 400);
+        }
+
+        $('a[data-toggle="tab"]').on("click", function () {
+            let newUrl;
+            const hash = $(this).attr("href");
+            if (hash == "#home") {
+                newUrl = url.split("#")[0];
+            } else {
+                newUrl = url.split("#")[0] + hash;
+            }
+            newUrl += "/";
+            history.replaceState(null, null, newUrl);
+        });
+    });
+    function togglePublish(id) {
+        var url = "{% url 'HouseListing:togglePublish' 123 %}";
+        // Construct the full URL with "id"
+        document.location.href = url.replace('123', id);
+    }
+</script>
+
+{% endblock body %}

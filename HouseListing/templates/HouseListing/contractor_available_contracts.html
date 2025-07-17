@@ -1,0 +1,180 @@
+{% extends 'HouseListing/default_listing_base.html' %}
+{% load static %}
+{% block header%} 
+<style>
+    a {
+        color: inherit;
+    }
+    .card-animate {
+            -webkit-transition: all .4s;
+            transition: all .4s;
+        }
+
+        .card-animate:hover {
+        -webkit-transform: translateY(calc(-1.5rem / 5));
+        transform: translateY(calc(-1.5rem / 5));
+        -webkit-box-shadow: 0 5px 10px rgba(30, 32, 37, 0.12);
+        box-shadow: 0 5px 10px rgba(30, 32, 37, 0.12);
+        }
+</style>
+{% endblock header %} 
+{% block body %}
+<div class="row">
+  <div class="col-lg-12">
+    	<div class="card my-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="alert alert-info">
+                            <h6>
+                                These Contracts are open for bidding. Submit your bid request here.
+                            </h6>
+                        </div>                        
+                    </div>
+                </div>
+                <ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified" id="myTab">
+                    <li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active" data-toggle="tab"><i class="icon-hour-glass mr-2"></i> Open Contracts</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+                        <div class="row">
+                            
+                            {% for contract in available_contracts_for_bidding  %}
+                            <div class="col-md-4 col-sm-6">
+                                <div class="card single-cards">
+                                    <div class="card-body text-center">
+                                        <div class="row">
+                                            <div class="col-12 text-center">
+                                                
+                                                <h5 class="text-info">
+                                                    Service: {{contract.service_type}}
+                                                </h5>
+                                                <h6 class="text-warning">
+                                                    {{contract.property}}
+                                                </h6>
+
+                                                <h6>
+                                                    <i class="icon-calendar text-muted mr-1"></i> {{contract.created_at}} 
+                                                </h6>
+                                                <h6>
+                                                    <blockquote>
+                                                        
+                                                            {{contract.description}}
+                                                        
+                                                        
+                                                    </blockquote>
+                                                    
+                                                </h6>                                               
+                                            </div>
+
+                                          
+                                            <div class="col-12 text-center">                                                
+                                                    <a href=""  data-toggle="modal" data-target="#showModal{{contract.id}}" class="btn btn-success btn-sm  btn-block">
+                                                        <i class="icon-checkmark2"></i> Bid 
+                                                    </a>
+                                               
+                                            </div>
+
+                                            <div class="modal fade" id="showModal{{contract.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header p-3">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Place Bid</h5>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <form action="{% url 'HouseListing:place_bid' contract.id %}" method="post">
+                                                            {% csrf_token %}
+                                                            <div class="modal-body">
+                                                                <small class="text-info mb-4">
+                                                                    Use this form to submit your proposal. Give details about your business, charges, operation policies etc.*
+                                                                </small>
+                                                                <div class="row">
+                                                                
+                                            
+                                                                    <div class="col-md-12">
+                                                                        <div class="mb-3">
+                                                                            <label>Your Proposal: <span class="text-danger">*</span></label>
+                                                                            <textarea required rows="10" class="form-control"
+                                                                                placeholder="write your business proposal for this bid."
+                                                                                name="proposal"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <div class="hstack gap-2 justify-content-end">
+                                                                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                                            
+                                                                        <button type="submit" class="btn btn-success" id="add-btn">
+                                                                            Place Bid
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                                                                                        
+                                    </div>
+                                </div>
+                                                     
+                            </div>
+
+                            {% empty %}
+                                <div class="col-12">
+                                    <div class="alert alert-warning text-center">
+                                        <p><i class="icon-warning mr-2"></i> No contracts open for bidding at the moment.</p>
+                                    </div>
+                                </div>                               
+                            {% endfor %}
+                                
+                        </div>                  
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+
+
+
+
+</div>
+
+
+
+
+<script>
+    $(document).ready(() => {
+        let url = location.href.replace(/\/$/, "");
+        
+        if (location.hash) {
+            const hash = url.split("#");
+            $('#myTab a[href="#'+hash[1]+'"]').tab("show");
+            url = location.href.replace(/\/#/, "#");
+            history.replaceState(null, null, url);
+            setTimeout(() => {
+            $(window).scrollTop(0);
+            }, 400);
+        } 
+        
+        $('a[data-toggle="tab"]').on("click", function() {
+            let newUrl;
+            const hash = $(this).attr("href");
+            if(hash == "#home") {
+            newUrl = url.split("#")[0];
+            } else {
+            newUrl = url.split("#")[0] + hash;
+            }
+            newUrl += "/";
+            history.replaceState(null, null, newUrl);
+        });
+        });
+    function togglePublish(id) {
+        var url = "{% url 'HouseListing:togglePublish' 123 %}";
+        // Construct the full URL with "id"
+        document.location.href = url.replace('123', id);                
+    }
+</script>
+
+{% endblock body %}

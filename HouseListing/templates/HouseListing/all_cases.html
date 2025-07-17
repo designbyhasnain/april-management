@@ -1,0 +1,155 @@
+{% extends 'HouseListing/default_base.html' %}
+{% load static %}
+{% block header%} 
+{% endblock header %} 
+{% block body %}
+<div class="row">
+  <div class="col-lg-12">
+    
+    <!-- Whole row as a control -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title"><i class="icon-hammer mr-4"></i> All Court Cases</h5>
+        
+      </div>
+
+      <div class="card-body">
+          <ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified" id="myTab">
+            <li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active" data-toggle="tab"><i
+                  class="icon-checkmark2 mr-2"></i> Open Cases</a></li>
+            <li class="nav-item"><a href="#bottom-justified-divided-tab2" class="nav-link" data-toggle="tab"> <i
+                  class="icon-cross2 mr-2"></i> Closed Case</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+              <div class="row">
+                <div class="col-12">
+                  <div class="table-responsive">
+                    <table class="table datatable-responsive-row-control table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>#</th>
+                      <th>Property</th>
+                      <th>LandLord</th>
+                      <th>Case Open Date</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+                    {% for agent in open_cases %}
+                    <tr>
+                      <td>
+                      </td>
+                      <td>{{forloop.counter}}</td>
+                      <td>{{agent.property}}</td>
+                      <td>{{agent.landlord}}</td>
+                      <td>{{agent.open_date}}</td>
+                      <td>
+                  
+                        {% if agent.case_open == True %}
+                        <span class="badge badge-success"> Open </span>
+                  
+                        {% else %}
+                        <span class="badge badge-warning"> Closed </span>
+                        {% endif %}
+                  
+                      </td>
+                  
+                      <td>
+                        <a href="{% url 'HouseListing:case_details' agent.id %}" class="dropdown-item"><i
+                            class="icon-eye4 align-bottom me-2"></i>
+                        </a>
+                      </td>
+                    </tr>
+                        {% empty %}
+                        <tr>
+                          <td colspan="8">
+                            <div class="alert alert-warning text-center">
+                              <i class="icon-warning" style="margin-right: 10px"></i> You
+                              don't have any open cases
+                            </div>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                  
+                  </tbody>
+                     </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <div class="tab-pane fade" id="bottom-justified-divided-tab2">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table datatable-responsive-row-control table-striped table-hover">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th>#</th>
+                            <th>Property</th>
+                            <th>LandLord</th>
+                            <th>Case Open Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                    
+                          {% for agent in closed_cases %}
+                          <tr>
+                            <td>
+                            </td>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{agent.property}}</td>
+                            <td>{{agent.landlord}}</td>
+                            <td>{{agent.open_date}}</td>
+                            <td>
+                    
+                              {% if agent.case_open == True %}
+                              <span class="badge badge-success"> Open </span>
+                    
+                              {% else %}
+                              <span class="badge badge-warning"> Closed </span>
+                              {% endif %}
+                    
+                            </td>
+                    
+                            <td>
+                              <a href="{% url 'HouseListing:case_details' agent.id %}" class="dropdown-item"><i
+                                  class="icon-eye4 align-bottom me-2"></i>
+                              </a>
+                            </td>
+                          </tr>
+
+                          {% empty %}
+                          <tr>
+                            <td colspan="8">
+                              <div class="alert alert-warning text-center">
+                                <i class="icon-warning" style="margin-right: 10px"></i> You
+                                don't have any closed cases
+                              </div>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                    
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <!-- /whole row as a control -->
+  </div>
+</div>
+
+
+{% endblock body %}

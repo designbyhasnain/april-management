@@ -1,0 +1,220 @@
+{% extends 'HouseListing/default_base.html' %}
+{% load humanize %}
+
+
+{% block body %}
+<div class="row my-4">
+
+    <div class="col-8 offset-md-2 text-center">
+        <div class="alert alert-info">
+            
+            {% if r_type == 'request' %}
+            <h6>Please select the house unit you want to be <b>repaired or fixed</b> </h6>
+            {% else %}
+            <h6>
+                Please select house unit you'd like to <b>associate the complain</b> to.          </h6>
+            {% endif %}
+                
+        </div>
+    </div>
+    {% for lease in all_leases %}
+    <div class="col-md-4 col-sm-6">
+        <div class="card card-animate">
+            <a href="{% url 'HouseListing:tenant_request_repair_details' lease.id r_type %}" style="color: inherit;">
+                <div class="card-body pt-4">
+                    <div class="d-flex my-1" style="justify-content: space-between">
+                        <p class="" style="font-size: 13px; font-weight: 800; margin-bottom: 10px">
+                            Unit:
+                        </p>
+
+                        <p class="mb-0">
+                            {{lease.apartment.property_title}} : : No. {{lease.house.house_code}}
+                        </p>
+                    </div>
+                    <div class="d-flex" style="justify-content: space-between">
+                        <p class="" style="font-size: 13px; font-weight: 800; margin-bottom: 10px">
+                            Status:
+                        </p>
+
+                        <p class="mb-0">
+
+                            {% if lease.current_status %}
+                            <span class="badge badge-success">
+                                Active
+                            </span>
+                            {% else %}
+                            <span class="badge badge-warning">
+                                Vacated
+                            </span>
+
+                            {% endif %}
+
+                        </p>
+                    </div>
+
+                    <div class="d-flex" style="justify-content: space-between">
+                        <p class="" style="font-size: 13px; font-weight: 800; margin-bottom: 10px">
+                            Rent Balance:
+                        </p>
+
+                        <p class="mb-0">
+                            $ {{lease.running_balance|intcomma}}
+                        </p>
+                    </div>
+                    <a href="{% url 'HouseListing:tenant_request_repair_details' lease.id r_type %}"
+                        class="btn btn-dark btn-block mt-3 mybg">Select</a>
+
+                </div>
+            </a>
+        </div>
+    </div>
+
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-warning text-center">
+            <p><i class="icon-warning mr-2"></i> No Units associated to you.</p>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+
+{% if r_type == 'request' %}
+<div class="row">
+    <div class="col-12">
+        <!-- table for past request -->
+        <div class="card card-animate">
+            <div class="card-header">
+                <center>
+
+                    <h6 class="card-title"><i class="icon-history"></i> All Requests</h6>
+                </center>
+
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover datatable-basic">
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Priority</th>
+                            <th>Details</th>
+                            <th>Deadline</th>
+                            <th>Status</th>
+                            <th>Requested On</th>
+                            <th>Completed On</th>
+                            <!-- <th>Actions</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for repair in past_requests %}
+                        <tr>
+                            <td>{{repair.lease.apartment.property_title}} : : No. {{repair.lease.house.house_code}}</td>
+                            <td>{{repair.request_priority}}</td>
+                            <td>{{repair.request_details|truncatechars:50}}</td>
+                            <td>{{repair.request_deadline}}</td>
+                            <td>
+                                {% if repair.request_status == 'Pending' %}
+                                <span class="badge badge-warning">{{repair.request_status}}</span>
+                                {% elif repair.request_status == 'Completed' %}
+                                <span class="badge badge-success">{{repair.request_status}}</span>
+                                {% else %}
+                                <span class="badge badge-danger">{{repair.request_status}}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{repair.request_date}}</td>
+                            <td>
+                                
+                                {% if repair.completion_date %}
+                                    {{repair.completion_date}}
+                                {% else %}
+                                    Not Yet                                    
+                                {% endif %}
+                                    
+                            </td>
+                            
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No Repair Request</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <!-- table for past request -->
+        <div class="card card-animate">
+            <div class="card-header">
+                <center>
+                    <h6 class="card-title"><i class="icon-history"></i> All Raised Complains</h6>
+                </center>
+
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover datatable-basic">
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Complain Date</th>
+                            <th>Details</th>
+                            <th>Status</th>
+                            <th>Resolution Date</th>
+                            
+                            <!-- <th>Actions</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for repair in past_requests %}
+                        <tr>
+                            <td>{{repair.lease.apartment.property_title}} : : No. {{repair.lease.house.house_code}}</td>
+                            
+                            <td>{{repair.complain_date}}</td>
+                            <td>{{repair.complain_details|truncatechars:50}}</td>
+                            <td>
+                                {% if repair.complain_status == 'Pending' %}
+                                <span class="badge badge-warning">{{repair.complain_status}}</span>
+                                {% elif repair.complain_status == 'Resolved' %}
+                                <span class="badge badge-success">{{repair.complain_status}}</span>
+                                {% else %}
+                                <span class="badge badge-danger">{{repair.complain_status}}</span>
+                                {% endif %}
+                            </td>
+                            
+                            <td>
+
+                                {% if repair.resolution_date %}
+                                {{repair.resolution_date}}
+                                {% else %}
+                                Not Yet
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No Repair Request</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    
+{% endif %}
+    
+{% endblock body %}

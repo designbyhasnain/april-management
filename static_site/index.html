@@ -1,0 +1,992 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--facebook og-->
+    <meta property="og:url" content="#">
+    <meta name="twitter:title" content="April Management">
+    <meta property="og:description" content="Your All-in-One Property Management Solution">
+    <meta property="og:image" content="#">
+    <meta property="og:image:secure_url" content="#">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!--meta-->
+    <meta name="description" content="Your All-in-One Property Management Solution">
+    <meta name="author" content="April Management">
+
+    <!--favicon icon-->
+    <link rel="icon" href="/static/Portfolio/assets/img/logoflow.png" type="image/png" sizes="16x16">
+
+    <!--title-->
+    <title>April Management</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/Portfolio/assets/css/custom.css">
+    <!-- Modal styles from HouseListing -->
+    <link rel="stylesheet" href="/static/HouseListing/assets/css/style.css">
+    <!-- Remix Icons for modal close button -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- Modal custom styles -->
+    <style>
+        .myCheckbox1 {
+            display: none;
+        }
+
+        .mylabel {
+            border: 1px solid #fff;
+            display: block;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .mylabel:before {
+            background-color: transparent;
+            color: white;
+            content: " ";
+            display: block;
+            border-radius: 50%;
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            line-height: 28px;
+            transition-duration: 0.4s;
+        }
+
+        :checked + .mylabel:before {
+            content: "✓";
+            background-color: green;
+            transform: scale(1);
+            z-index: 10;
+        }
+
+        :checked + .mylabel img {
+            transform: scale(0.9);
+            z-index: -1;
+        }
+
+        .prop-type {
+            font-weight: 800;
+            color: black;
+        }
+
+        .img-fluid-50 {
+            max-width: 50px;
+        }
+    </style>
+</head>
+
+    <!-- Modern Navigation -->
+    <nav class="modern-navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="#" class="navbar-brand">
+                    <img src="/static/Portfolio/assets/img/logoflow.png" alt="April Management" class="logo">
+                    <span class="brand-text">April Management</span>
+                </a>
+                <div class="navbar-menu">
+                    <a href="#features" class="nav-link">Services</a>
+                    <a href="#demo" class="nav-link">Try Demo</a>
+                    <a href="#how-it-works" class="nav-link">How It Works</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#signIn" class="btn-outline-light">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Modern Hero Section -->
+    <section class="modern-hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-8">
+                    <div class="hero-content text-center">
+                        <div class="hero-badge">
+                            <span class="badge-text">
+                                <i class="fas fa-home"></i>Professional Property Management
+                            </span>
+                        </div>
+                        <h1 class="hero-title">
+                            Streamlined <span class="text-gradient">Property Management</span> Made Simple
+                        </h1>
+                        <p class="hero-subtitle">
+                            Comprehensive property management solutions for landlords, tenants, and property owners.
+                            Manage rentals, maintenance, and tenant relations all in one professional platform.
+                        </p>
+                        <div class="hero-buttons">
+                            <a href="/app/freetrial/" class="btn-primary-modern">
+                                <i class="fas fa-rocket"></i>Get Started Free
+                            </a>
+                            <a href="#demo" class="btn-secondary-modern">
+                                <i class="fas fa-play"></i>Try Demo
+                            </a>
+                        </div>
+
+                        <!-- Trust Indicators -->
+                        <div class="trust-indicators">
+                            <div class="trust-stats">
+                                <div class="trust-stat">
+                                    <span class="trust-number">1,200+</span>
+                                    <span class="trust-label">Properties Managed</span>
+                                </div>
+                                <div class="trust-stat">
+                                    <span class="trust-number">98%</span>
+                                    <span class="trust-label">Client Satisfaction</span>
+                                </div>
+                                <div class="trust-stat">
+                                    <span class="trust-number">24/7</span>
+                                    <span class="trust-label">Professional Support</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Property Search Section -->
+    <section class="search-section" id="search">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="search-card">
+                        <h2 class="section-title">Find Your Perfect Property</h2>
+                        <p class="section-subtitle">Search through our extensive database of properties for rent and sale across multiple locations</p>
+                        <form class="search-form">
+                            <div class="form-group">
+                                <label class="form-label">Location</label>
+                                <input type="text" class="form-control" placeholder="Enter city or neighborhood">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Property Type</label>
+                                <select class="form-control">
+                                    <option>All Types</option>
+                                    <option>Apartment</option>
+                                    <option>House</option>
+                                    <option>Condo</option>
+                                    <option>Commercial</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="search-btn">
+                                <i class="fas fa-search"></i>Search Properties
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">Professional Property Management Services</h2>
+                    <p class="section-subtitle">
+                        Comprehensive solutions designed to streamline property management,
+                        enhance tenant satisfaction, and maximize your investment returns.
+                    </p>
+                </div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Tenant Services</h4>
+                    <p>
+                        Streamlined application process, qualified tenant matching, and comprehensive
+                        support throughout the rental journey. No hidden fees, transparent process.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h4>Maintenance & Repairs</h4>
+                    <p>
+                        24/7 maintenance coordination, vetted contractor network, and proactive
+                        property care to maintain value and tenant satisfaction.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Property Management</h4>
+                    <p>
+                        Complete property oversight, financial reporting, rent collection,
+                        and strategic guidance to maximize your investment potential.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works-section" id="how-it-works">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">How It Works</h2>
+                    <p class="section-subtitle">
+                        Get started with professional property management in three simple steps
+                    </p>
+                </div>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h4>Create Account</h4>
+                    <p>
+                        Sign up for free and tell us about your property management needs.
+                        Whether you're a tenant, property owner, or contractor, we have solutions for you.
+                    </p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h4>Browse & Connect</h4>
+                    <p>
+                        Search properties, connect with verified professionals, or find qualified tenants
+                        and contractors through our comprehensive network.
+                    </p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h4>Manage Everything</h4>
+                    <p>
+                        Use our integrated platform to handle applications, payments, maintenance requests,
+                        and all your property management needs efficiently.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="about-content">
+                        <h2 class="section-title">Our Story</h2>
+                        <p class="about-text">
+                            I purchased my first house at 19 from an auction. It came with a tenant already.
+                            I was a young, single, and a stubborn female so instead of being ripped off by contractors,
+                            I opted to do a lot of work myself. I lived with a lot of mistakes, some very dangerous.
+                        </p>
+                        <p class="about-text">
+                            Eventually I married a contractor, a driven, intelligent, talented man with an impeccable
+                            work ethic trying to get his own small business off the ground. We worked hard together to
+                            ensure its success. The landlords that we have come in contact with help us appreciate
+                            the renters' point of view.
+                        </p>
+                        <p class="about-text">
+                            Empowering and strengthening our community will ensure everyone has a chance at that basic
+                            need to be met, whether it's your first place, relying on rental income, or wanting to
+                            start a business to support your family. April Management cares for you.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-image">
+                        <img src="/static/Portfolio/assets/img/story.webp" alt="Our Story" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Try Our Platform</h2>
+                <p class="section-subtitle">
+                    Experience April Management firsthand with our interactive demos tailored for each user type.
+                    No signup required - explore all features instantly.
+                </p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="demo-card">
+                        <div class="demo-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h4>Property Manager Demo</h4>
+                        <p>Explore our comprehensive dashboard for landlords and property managers. See how to manage properties, tenants, rent collection, and maintenance requests.</p>
+                        <ul class="demo-features">
+                            <li><i class="fas fa-check"></i> Property portfolio management</li>
+                            <li><i class="fas fa-check"></i> Tenant screening & applications</li>
+                            <li><i class="fas fa-check"></i> Rent collection & reporting</li>
+                            <li><i class="fas fa-check"></i> Maintenance coordination</li>
+                        </ul>
+                        <a href="/app/login_demo/" class="btn btn-primary btn-lg">
+                            <i class="fas fa-play"></i> Try Demo
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="demo-card">
+                        <div class="demo-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h4>Tenant Portal Demo</h4>
+                        <p>Experience our tenant-friendly platform. See how easy it is to pay rent, submit maintenance requests, and communicate with property managers.</p>
+                        <ul class="demo-features">
+                            <li><i class="fas fa-check"></i> Online rent payments</li>
+                            <li><i class="fas fa-check"></i> Maintenance request system</li>
+                            <li><i class="fas fa-check"></i> Document access & storage</li>
+                            <li><i class="fas fa-check"></i> Communication portal</li>
+                        </ul>
+                        <a href="/app/login_tenant_demo/" class="btn btn-primary btn-lg">
+                            <i class="fas fa-play"></i> Try Demo
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="demo-card">
+                        <div class="demo-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h4>Contractor Network Demo</h4>
+                        <p>Discover opportunities in our contractor network. See how to receive job requests, manage projects, and grow your business with property managers.</p>
+                        <ul class="demo-features">
+                            <li><i class="fas fa-check"></i> Job request notifications</li>
+                            <li><i class="fas fa-check"></i> Project management tools</li>
+                            <li><i class="fas fa-check"></i> Invoice & payment tracking</li>
+                            <li><i class="fas fa-check"></i> Rating & review system</li>
+                        </ul>
+                        <a href="/app/login_contractor/" class="btn btn-primary btn-lg">
+                            <i class="fas fa-play"></i> Try Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Guidance Section -->
+    <section class="how-it-works-section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">How April Management Works for You</h2>
+                <p class="section-subtitle">
+                    Whether you're a tenant, property owner, or contractor, our platform is designed to simplify your property management experience.
+                </p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="works-tabs-wrapper">
+                <ul class="nav nav-pills works-nav-pills justify-content-center" id="worksTabList" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="tenants-tab" data-bs-toggle="pill" data-bs-target="#tenants-content" type="button" role="tab" aria-controls="tenants-content" aria-selected="true">
+                            <i class="fas fa-home"></i>
+                            <span>For Tenants</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="owners-tab" data-bs-toggle="pill" data-bs-target="#owners-content" type="button" role="tab" aria-controls="owners-content" aria-selected="false">
+                            <i class="fas fa-building"></i>
+                            <span>For Property Owners</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contractors-tab" data-bs-toggle="pill" data-bs-target="#contractors-content" type="button" role="tab" aria-controls="contractors-content" aria-selected="false">
+                            <i class="fas fa-tools"></i>
+                            <span>For Contractors</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content works-tab-content" id="worksTabContent">
+                <!-- Tenants Tab -->
+                <div class="tab-pane fade show active" id="tenants-content" role="tabpanel" aria-labelledby="tenants-tab">
+                    <div class="row g-4 justify-content-center">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="works-step-card">
+                                <div class="step-number">1</div>
+                                <div class="step-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <h4>Find Your Home</h4>
+                                <p>Browse our extensive database of verified rental properties. Use advanced filters to find the perfect match for your needs and budget.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="works-step-card">
+                                <div class="step-number">2</div>
+                                <div class="step-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <h4>Apply Online</h4>
+                                <p>Submit your application digitally with our streamlined process. Upload documents securely and track your application status in real-time.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="works-step-card">
+                                <div class="step-number">3</div>
+                                <div class="step-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <h4>Move In & Manage</h4>
+                                <p>Once approved, access your tenant portal to pay rent, submit maintenance requests, and communicate with your property manager.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="/app/houses_for_rent/" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-search"></i> Browse Properties
+                        </a>
+                        <a href="/app/login_tenant_demo/" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-play"></i> Try Tenant Demo
+                        </a>
+                    </div>
+                </div>
+                <!-- Property Owners Tab -->
+                <div class="tab-pane fade" id="owners-content" role="tabpanel" aria-labelledby="owners-tab">
+                    <div class="row g-4 justify-content-center">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="works-step-card">
+                                <div class="step-number">1</div>
+                                <div class="step-icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </div>
+                                <h4>List Your Property</h4>
+                                <p>Create professional listings with our easy-to-use tools. Add photos, descriptions, and set competitive rental rates based on market data.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="works-step-card">
+                                <div class="step-number">2</div>
+                                <div class="step-icon">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <h4>Screen Tenants</h4>
+                                <p>Use our comprehensive screening tools to evaluate applications. Check credit, background, and references to find qualified tenants.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="works-step-card">
+                                <div class="step-number">3</div>
+                                <div class="step-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h4>Manage & Grow</h4>
+                                <p>Track rent collection, coordinate maintenance, and access detailed financial reports. Scale your portfolio with confidence.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="/app/freetrial/" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-rocket"></i> Start Free Trial
+                        </a>
+                        <a href="/app/login_demo/" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-play"></i> Try Owner Demo
+                        </a>
+                    </div>
+                </div>
+                <!-- Contractors Tab -->
+                <div class="tab-pane fade" id="contractors-content" role="tabpanel" aria-labelledby="contractors-tab">
+                    <div class="row g-4 justify-content-center">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="works-step-card">
+                                <div class="step-number">1</div>
+                                <div class="step-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <h4>Join Our Network</h4>
+                                <p>Create your contractor profile and showcase your skills, certifications, and past work. Get verified to build trust with property managers.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="works-step-card">
+                                <div class="step-number">2</div>
+                                <div class="step-icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <h4>Receive Job Requests</h4>
+                                <p>Get notified of maintenance and repair jobs in your area. Bid on projects that match your expertise and availability.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="works-step-card">
+                                <div class="step-number">3</div>
+                                <div class="step-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <h4>Get Paid Fast</h4>
+                                <p>Complete jobs, submit invoices through our platform, and receive fast payments. Build your reputation with positive reviews.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="/app/freetrial/" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-handshake"></i> Join Network
+                        </a>
+                        <a href="/app/login_contractor/" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-play"></i> Try Contractor Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <div class="cta-card">
+                    <h2 class="cta-title">Ready to Get Started?</h2>
+                    <p class="cta-subtitle">
+                        Professional Property Management Made Simple
+                    </p>
+                    <p class="cta-description">
+                        Choose the service that best fits your needs and join thousands of satisfied clients
+                        who trust April Management for their property needs.
+                    </p>
+                    <div class="cta-options">
+                        <div class="cta-option">
+                            <div class="cta-option-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="cta-option-title">Tenants</h3>
+                            <p class="cta-option-text">
+                                Find your perfect rental property with our streamlined application process
+                                and comprehensive tenant support services.
+                            </p>
+                            <a href="/app/houses_for_rent/" class="cta-btn">
+                                Get Started <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="cta-option">
+                            <div class="cta-option-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <h3 class="cta-option-title">Contractors</h3>
+                            <p class="cta-option-text">
+                                Join our network of trusted professionals and access new business
+                                opportunities through our contractor platform.
+                            </p>
+                            <a href="/app/freetrial/" class="cta-btn">
+                                Join Network <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="cta-option">
+                            <div class="cta-option-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <h3 class="cta-option-title">Property Owners</h3>
+                            <p class="cta-option-text">
+                                Maximize your investment with our comprehensive property management
+                                services and professional support team.
+                            </p>
+                            <a href="/app/freetrial/" class="cta-btn">
+                                Start Managing <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="modern-footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <img src="/static/Portfolio/assets/img/logoflow.png" alt="April Management" class="logo">
+                        <span class="footer-brand-text">April Management</span>
+                    </div>
+                    <p class="footer-description">
+                        Professional property management services designed to streamline operations,
+                        enhance tenant satisfaction, and maximize your investment returns.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="/app/houses_for_rent/">Tenant Services</a></li>
+                        <li><a href="/app/freetrial/">Property Management</a></li>
+                        <li><a href="/app/freetrial/">Contractor Network</a></li>
+                        <li><a href="#features">Maintenance Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#features">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#signIn">Sign In</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="footer-contact-info">
+                        <strong>Email:</strong>
+                        info@aprilmanagement.com
+                        <br><br>
+                        <strong>Phone:</strong>
+                        (555) 123-4567
+                        <br><br>
+                        <strong>Hours:</strong>
+                        Mon-Fri 9AM-6PM
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-text">
+                    © 2024 April Management. All Rights Reserved.
+                    Designed with <i class="fas fa-heart text-danger"></i> for our community
+                    <!-- Discreet admin access -->
+                    <a href="/admin/" class="admin-access" title="Admin Panel" style="color: #666; text-decoration: none; margin-left: 10px; opacity: 0.3; font-size: 10px;">•</a>
+                </p>
+                <div class="footer-social">
+                    <a href="https://facebook.com/sharer/sharer.php?u=https://mrsallinecochran.wixsite.com/april-management" class="social-link" target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://mrsallinecochran.wixsite.com/april-management" class="social-link" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Modern Landing JS -->
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.modern-navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+    <!-- Modal form handling JavaScript -->
+    <script>
+        $("#signinform").submit(function (e) {
+            e.preventDefault();
+            document.getElementById("login").setAttribute("disabled", true);
+            $("#spinner").addClass("spinner-border spinner-border-sm");
+            this.submit();
+        });
+
+        $("#signupform").submit(function (e) {
+            e.preventDefault();
+            document.getElementById("register").setAttribute("disabled", true);
+            $("#spinner2").addClass("spinner-border spinner-border-sm");
+            this.submit();
+        });
+    </script>
+
+    <!-- Fix for stray text in tab content -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Remove any stray text nodes that might contain unwanted characters
+            function cleanStrayText() {
+                const guidanceSection = document.querySelector('.user-guidance-section');
+                if (guidanceSection) {
+                    const walker = document.createTreeWalker(
+                        guidanceSection,
+                        NodeFilter.SHOW_TEXT,
+                        null,
+                        false
+                    );
+
+                    const textNodes = [];
+                    let node;
+                    while (node = walker.nextNode()) {
+                        textNodes.push(node);
+                    }
+
+                    textNodes.forEach(textNode => {
+                        const text = textNode.textContent.trim();
+                        // Remove text nodes that contain only special characters and spaces
+                        if (text.match(/^[\+\$\s]*$/)) {
+                            textNode.remove();
+                        }
+                    });
+                }
+            }
+
+            // Clean on load
+            cleanStrayText();
+
+            // Clean after tab switches
+            const tabButtons = document.querySelectorAll('[data-bs-toggle="pill"]');
+            tabButtons.forEach(button => {
+                button.addEventListener('shown.bs.tab', cleanStrayText);
+            });
+        });
+    </script>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="signIn" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0 justify-content-center">
+            <h4 style="color: rgb(42, 42, 51);">
+              Login to April Management
+            </h4>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <i class="ri-close-line"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row align-items-center gx-5">
+              <div class="col-md-12">
+                <div class="login-content">
+                  <form class="user-form" action="/app/login_user/" method="post" id="signinform">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="Dfz6E6JWIqQpp5hrSMKsfyQUti6jqAxg2V5d0ZSljTmnyZDDOMbLMlmPNmMzRFsE">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <input
+                            id="sign-email"
+                            name="username"
+                            type="text"
+                            placeholder="Enter Email/Username"
+                            required
+                          />
+                          <input type="hidden" id="next" name="next" value="" />
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <input
+                            id="sign-pwd"
+                            name="password"
+                            type="password"
+                            placeholder="Enter Password"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <button type="submit" id="login" class="btn style2">Login Now <span id="spinner"></span></button>
+                        </div>
+                      </div>
+                      <div class="col-12 text-center">
+                        Don't Have an Account? <a href="#" class="btn-link"
+                        data-bs-toggle="modal"
+                        data-bs-target="#signUp">Register</a>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signUp" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0 justify-content-center">
+            <h4 style="color: rgb(42, 42, 51);">
+              New Account
+            </h4>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              <i class="ri-close-line"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row align-items-center gx-5">
+              <div class="col-md-12">
+                <div class="login-content">
+                  
+                  <p>Please fill the form to create an account</p>
+                  <form class="user-form" action="/app/register_user/" id="signupform" method="post">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="Dfz6E6JWIqQpp5hrSMKsfyQUti6jqAxg2V5d0ZSljTmnyZDDOMbLMlmPNmMzRFsE">
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <input
+                            id="full_name"
+                            name="full_name"
+                            type="text"
+                            placeholder="Enter Full Name"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <input type="hidden" id="next_signup" name="next_signup" value="pta" />
+                          <input
+                            id="email"
+                            name="username"
+                            type="email"
+                            placeholder="Enter Email"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <input
+                            id="phone_number"
+                            name="phone_number"
+                            type="number"
+                            placeholder="Enter Phone Number"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <input
+                            id="pwd_2"
+                            name="password"
+                            type="password"
+                            placeholder="Password"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-12 text-center">
+                        <div class="form-group">
+                            <h6 style="color: #EC3323!important;">What type of user are you?</h6>
+                            <p class="text-muted">
+                              <small>
+                                Please Select one.
+                              </small>
+                            </p>
+                          </div>
+                      </div>
+                      <div class="row my-2">
+                        <div class="col-4 text-center">
+                           <input type="radio" id="myCheckbox1" class="myCheckbox1" value="Property Seeker" name="user_type" checked />
+                            <label class="mylabel" for="myCheckbox1">
+                              <img src="/static/HouseListing/images/seeker.png" class="img-fluid-50" />
+                              <p class="prop-type">Property Seeker</p>
+                            </label>
+                        </div>
+                        <div class="col-4 text-center">
+                           <input type="radio" id="myCheckbox2" class="myCheckbox1" value="LandLord" name="user_type" />
+                            <label class="mylabel" for="myCheckbox2">
+                              <img src="/static/HouseListing/images/man.png" class="img-fluid-50" />
+                               <p class="prop-type">LandLord</p>
+                            </label>
+                        </div>
+                        <div class="col-4 text-center">
+                           <input type="radio" id="myCheckbox3" class="myCheckbox1" value="Contractor" name="user_type" />
+                            <label class="mylabel" for="myCheckbox3">
+                              <img src="/static/HouseListing/images/employee.png" class="img-fluid-50" />
+                               <p class="prop-type">Contractor</p>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="col-sm-12 col-12 text-center">
+                          <label>
+                            <small>
+                              By clicking on "Sign Up", you agree to our
+                                <a class="link style1" href="terms-of-service.html"
+                                  >Terms &amp; conditions</a
+                                >
+                                &amp;
+                                <a class="link style1" href="privacy-policy.html"
+                                  >privacy policy</a
+                                >
+                            </small>
+                          </label>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                          <button class="btn style1" id="register">Submit <span id="spinner2" class=""></span></button>
+                        </div>
+                      </div>
+                       <div class="col-12 text-center">
+                        Already Have an Account? <a href="#"
+                        class="btn-link"
+                        data-bs-toggle="modal"
+                        data-bs-target="#signIn">Sign In</a>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+
+</html>

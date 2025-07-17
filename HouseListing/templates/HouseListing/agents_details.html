@@ -1,0 +1,245 @@
+{% extends 'HouseListing/default_base.html' %}
+{% load static %}
+{% block header%} 
+{% endblock header %} 
+{% load humanize %}
+{% block body %}
+<div class="row">
+  <div class="col-lg-12">
+    <!-- Whole row as a control -->
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title"><i class="icon-users mr-4"></i> Agents Details</h5>
+      </div>      
+    </div>
+    <!-- /whole row as a control -->
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-4 text-center">
+
+            
+            {% if agent.profile_image %}
+            <img class="img-fluid" src="{{agent.profile_image.url}}"
+            style="
+                    max-height: 300px;
+                    min-height: 300px;
+                    object-fit: cover;
+                    min-width: 100%;
+                  "
+            />
+            {% else %}        
+            							<img src="{% static 'HouseListing/images/user.png' %} " class="img-fluid user-img "/>      
+
+            {% endif %}
+              
+          </div>
+
+          <div class="col-lg-4 offset-md-2">
+            <table class="ml-4 table table-responsive table-hover">
+								<tr class="mt-4">
+									<td style="padding-bottom: 10px;"><b>Full Name:</b></td>
+									<td style="padding-bottom: 10px;" class="pl-4">{{agent.full_name}}</td>
+								</tr>
+								<tr class="mt-4">
+									<td><b>Phone Number:</b></td>
+									<td class="pl-4">{{agent.phone_number}}</td>
+								</tr>
+								<tr class="mt-4">
+									<td><b>Email:</b></td>
+									<td class="pl-4">{{agent.email}}</td>
+								</tr>
+								<tr class="mt-4">
+									<td><b>Status:</b></td>
+									<td class="pl-4">{{agent.account_verified}}</td>
+								</tr>
+								<tr class="mt-4">
+									<td><b>Account Type:</b></td>
+									<td class="pl-4">{{agent.user_account_type}}</td>
+								</tr>
+							
+            </table>
+            <!-- <center>
+              <a href="" data-toggle="modal" data-target="#edit_modal" class="btn btn-outline-dark btn-sm my-4" style="border-radius: 5px;">
+                  <i class="icon-pencil5 mr-1"></i> Edit agent</a>
+            </center> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card my-3">
+            <div class="card-body">
+                <ul class="nav nav-tabs nav-tabs-bottom border-bottom-0 nav-justified" id="myTab">
+                    <li class="nav-item"><a href="#bottom-justified-divided-tab1" class="nav-link active"
+                            data-toggle="tab"><i class="icon-office mr-2"></i> Active Listings</a></li>
+                    <li class="nav-item"><a href="#bottom-justified-divided-tab2" class="nav-link" data-toggle="tab"> <i
+                                class="icon-history mr-2"></i> Off-Market Listings</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="bottom-justified-divided-tab1">
+
+                      <div class="row">
+                        <div class="col-12">
+                          <table class="table table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th>#</th>
+                                <th>Property Title</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>MBM</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>    
+                            
+                            <tbody>
+
+                              {% for property in active_properties_listings %}
+                                <tr>
+                                  <td>
+                                  </td>
+                                  <td>{{forloop.counter}}</td>
+                                  <td>{{property.property_title}}</td>
+                                  <td>{{property.type.name}}</td>
+                                  <td>{{property.status.property_status}}</td>
+                                  <td>
+                                    
+                                    {% if property.approved_by_admin == True %}
+                                    <span class="badge badge-success badge-striped"> Approved </span>
+                                    
+                                    {% else %}
+                                    <span class="badge badge-warning badge-striped"> Pending </span>                    
+                                    {% endif %}
+                                      
+                                  </td>
+
+                                  <td>
+                                    {% if property.managed_by_manyumba == True %}
+                                    <span class="badge badge-success badge-striped"> Yes </span>
+                                    
+                                    {% else %}
+                                    <span class="badge badge-secondary badge-striped"> No </span>                    
+                                    {% endif %}
+                                    
+                                  </td>
+                                  <td>
+                                    <a href="{% url 'HouseListing:approve_property_detail' property.id %}" class="dropdown-item"><i
+                                              class="icon-eye4 align-bottom me-2"
+                                            ></i>
+                                            </a
+                                          >
+                                  </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                  <td colspan="8">
+                                    <div class="alert alert-warning text-center">
+                                      <i class="icon-warning" style="margin-right: 10px"></i> You
+                                      don't have any listings to approve.
+                                    </div>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                          
+                          </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                        
+                    </div>
+
+                    <div class="tab-pane fade" id="bottom-justified-divided-tab2">
+
+                       <div class="row">
+                        <div class="col-12">
+                          <table class="table table-hover table-striped">
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th>#</th>
+                                <th>Property Title</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>MBM</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>    
+                            
+                            <tbody>
+
+                              {% for property in off_market_properties %}
+                                <tr>
+                                  <td>
+                                  </td>
+                                  <td>{{forloop.counter}}</td>
+                                  <td>{{property.property_title}}</td>
+                                  <td>{{property.type.name}}</td>
+                                  <td>{{property.status.property_status}}</td>
+                                  <td>
+                                    
+                                    {% if property.approved_by_admin == True %}
+                                    <span class="badge badge-success badge-striped"> Approved </span>
+                                    
+                                    {% else %}
+                                    <span class="badge badge-warning badge-striped"> Pending </span>                    
+                                    {% endif %}
+                                      
+                                  </td>
+
+                                  <td>
+                                    {% if property.managed_by_manyumba == True %}
+                                    <span class="badge badge-success badge-striped"> Yes </span>
+                                    
+                                    {% else %}
+                                    <span class="badge badge-secondary badge-striped"> No </span>                    
+                                    {% endif %}
+                                    
+                                  </td>
+                                  <td>
+                                    <a href="{% url 'HouseListing:approve_property_detail' property.id %}" class="dropdown-item"><i
+                                              class="icon-eye4 align-bottom me-2"
+                                            ></i>
+                                            </a
+                                          >
+                                  </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                  <td colspan="8">
+                                    <div class="alert alert-warning text-center">
+                                      <i class="icon-warning" style="margin-right: 10px"></i> You
+                                      don't have any listings to approve.
+                                    </div>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                          
+                          </tbody>
+                          </table>
+                        </div>
+                      </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+</div>
+
+{% endblock body %}

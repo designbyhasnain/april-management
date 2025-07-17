@@ -1,0 +1,329 @@
+{% extends 'HouseListing/default_base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block header %}
+<script src="{% static 'HouseListing/global_assets/js/plugins/loaders/blockui.min.js '%}"></script>
+<script src="{% static 'HouseListing/global_assets/js/plugins/notifications/sweet_alert.min.js' %}"></script>
+
+<script src="{% static 'HouseListing/global_assets/js/plugins/forms/selects/select2.min.js '%}"></script>
+<script src="{% static 'HouseListing/global_assets/js/plugins/forms/styling/uniform.min.js '%}"></script>
+<script src="{% static 'HouseListing/global_assets/js/demo_pages/form_layouts.js '%}"></script>
+
+<style>
+    .balance-card {
+        background-color: #D22D3D;
+        border-color: white;
+        color: white;
+        border-radius: 10px;
+    }
+
+    .balance-card h1 {
+        font-weight: 900;
+
+    }
+
+    .balance-card h6 {
+        font-weight: 400;
+    }
+
+    .excess-card {
+        background-color: #282F3B;
+        border-color: white;
+        color: white;
+        border-radius: 10px;
+    }
+
+    .excess-card h1 {
+        font-weight: 900;
+
+    }
+
+    .excess-card h6 {
+        font-weight: 400;
+    }
+
+
+    .fw-medium {
+        font-weight: 500;
+    }
+
+    .avatar-sm {
+        height: 3rem;
+        width: 3rem;
+    }
+
+    .avatar-title {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        background-color: #B11226;
+        color: #fff;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        font-weight: 500;
+        height: 100%;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .card-animate {
+        -webkit-transition: all .4s;
+        transition: all .4s;
+    }
+
+    .card-animate:hover {
+        -webkit-transform: translateY(calc(-1.5rem / 5));
+        transform: translateY(calc(-1.5rem / 5));
+        -webkit-box-shadow: 0 5px 10px rgba(30, 32, 37, 0.12);
+        box-shadow: 0 5px 10px rgba(30, 32, 37, 0.12);
+    }
+</style>
+{% endblock header %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card balance-card">
+                <div class="card-body text-center">
+                    <h6>Rent Balance</h6>
+                    
+                    <!-- intcomma with 2 decimal place -->
+
+                    <!-- {{ rent_balance|intcomma|floatformat:2 }} -->
+
+
+                    <h1>$. {{rent_balance|intcomma }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card excess-card">
+                <div class="card-body text-center">
+                    <h6>Excess Payment</h6>
+                    <h1>$ {{excess_payment}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <div class="col-md-5">
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="row my-2">
+                        <div class="col-6 text-left"><b>
+                                <i class="icon-man-woman mr-1"></i> Property:</b></div>
+                        <div class="col-6 text-left">{{lease.apartment.property_title}}</div>
+                    </div>
+                    <hr>
+                    <div class="row my-2">
+                        <div class="col-6 text-left"><b>
+                                <i class="icon-office mr-1"></i> Unit:</b></div>
+                        <div class="col-6 text-left">{{lease.house.house_code}}</div>
+                    </div>
+                    <hr>
+                    <div class="row my-2">
+                        <div class="col-6 text-left"><b>
+                                <i class="icon-calendar mr-1"></i> Start Date:</b></div>
+                        <div class="col-6 text-left">{{lease.lease_end_date}}</div>
+                    </div>
+                    <hr>
+                    <div class="row my-2">
+                        <div class="col-6 text-left"><b>
+                                <i class="icon-briefcase mr-1"></i> Lease Document:</b></div>
+                        <div class="col-6 text-left">
+                            <a target="_blank" href="{{lease.lease_documents.url}}" style="color: black;">
+                                <i class="icon-file-text2"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row my-2">
+                        <div class="col-6 text-left"><b>
+                                <i class="icon-history mr-1"></i> Lease Status:</b></div>
+                        <div class="col-6 text-left">
+                           
+                           {% if lease.current_status %}
+
+                           <span class="badge badge-success">
+                            Active
+                           </span>
+                           
+                           {% else %}
+                           
+                           <span class="badge badge-warning">
+                            Vacated
+                           </span>
+                           {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card card-animate">
+                <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+
+
+                    <!-- pending and paid -->
+
+                    
+                    <h6 class="text-center font-weight-bold">Invoices</h6>
+                    <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+                        <li class="nav-item"><a href="#pending" class="nav-link active" data-toggle="tab">Pending Invoices <i
+                                    class="icon-file-text2 ml-2"></i></a></li>
+                        <li class="nav-item"><a href="#paid" class="nav-link" data-toggle="tab">
+                                Paid Invoices
+                                <i class="icon-checkmark2 ml-2"></i></a></li>
+               
+                    </ul>
+
+                    <div class="tab-content">
+                        <!-- basic info -->
+                        <div class="tab-pane fade show active" id="pending">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Balance</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </thead>
+        
+                                    <tbody>
+                                        
+                                        {% for invoice in pending_invoices  %}
+                                         
+                                            <tr>
+                                                <td>{{invoice.month}}</td>
+                                                <td>$ {{invoice.current_amount |intcomma}}</td>
+                                                <td>$ {{invoice.balance |intcomma}}</td>
+                                                <td>
+                                                    
+                                                    {% if invoice.payment_status == 'Paid' %}
+                                                        <span class="badge badge-success">
+                                                            Paid
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="badge badge-warning">
+                                                            Pending
+                                                        </span>
+                                                        
+                                                    {% endif %}
+                                                        
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'HouseListing:invoice_template' invoice.id %}" class="btn btn-outline-dark btn-sm">
+                                                        View
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% empty %}
+                                            <tr>
+                                                <td colspan="5" class="text-center">No pending invoices</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+					    <div class="tab-pane fade" id="paid">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Balance</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </thead>
+        
+                                    <tbody>
+                                        
+                                        {% for invoice in paid_invoices  %}
+                                            <tr>
+                                                <td>{{invoice.month}}</td>
+                                                <td>$ {{invoice.current_amount |intcomma}}</td>
+                                                <td>$ {{invoice.balance |intcomma}}</td>
+                                                <td>
+                                                    
+                                                    {% if invoice.payment_status == 'Paid' %}
+                                                        <span class="badge badge-success">
+                                                            Paid
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="badge badge-warning">
+                                                            Pending
+                                                        </span>
+                                                        
+                                                    {% endif %}
+                                                        
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'HouseListing:invoice_template' invoice.id %}" class="btn btn-outline-dark btn-sm">
+                                                        View
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% empty %}
+                                            <tr>
+                                                <td colspan="5" class="text-center">No Paid invoices</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row my-3">
+        <div class="col-md-12">
+            <div class="card card-animate">
+                <div class="card-body">
+                    <h6 class="text-center font-weight-bold">Payment History</h6>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Reference</th>
+                            </thead>
+                            <tbody>
+                                {% for payment in all_payments %}
+                                    <tr>
+                                        <td>{{payment.date_paid}}</td>
+                                        <td>$ {{payment.amount_paid |intcomma}}</td>
+                                        <td>{{payment.payment_method}}</td>
+                                        <td>{{payment.reference}}</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">No payment history</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock body %}
+    
