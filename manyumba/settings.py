@@ -31,6 +31,11 @@ DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*,5.183.9.97:8030,aprilmanagement.pro').split(',')
 
+# Add Render.com to allowed hosts if deployed there
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -54,6 +59,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 30242880
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add WhiteNoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -84,12 +90,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'manyumba.wsgi.application'
 
 # Database
+import dj_database_url
+
+# Default to SQLite for development
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Use PostgreSQL in production (Render will provide DATABASE_URL)
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    DATABASES['default']['CONN_MAX_AGE'] = 600
 
 # Email Configuration - Using environment variables for security
 EMAIL_HOST = 'smtp.sendgrid.net'
@@ -125,6 +139,9 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# WhiteNoise configuration for static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
