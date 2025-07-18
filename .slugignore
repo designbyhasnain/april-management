@@ -1,0 +1,84 @@
+# Scalingo deployment exclusions
+# This file tells Scalingo what NOT to include in the deployment
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# Media files (use Cloudinary for production)
+media/
+
+# Static files (generated during build)
+staticfiles/
+
+# Development database
+db.sqlite3
+*.db
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Test files
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+
+# Documentation
+README.md
+README_DEPLOYMENT.md
+DEPLOYMENT_GUIDE.md
+deploy-*.md
+*.md
+
+# Deployment scripts for other platforms
+deploy-*.bat
+deploy-*.ps1
+*.bat
+*.ps1
+
+# Node modules (if any)
+node_modules/
+
+# Backup files
+*.bak
+*.backup
+
+# Environment files (secrets should be in Scalingo env vars)
+.env
+.env.*
+
+# Git files
+.git/
+.gitignore
+
+# Test and development files
+test_*.py
+*_test.py
+tests/
+test/
+
+# Static site generation (not needed for Django deployment)
+static_site/
+generate-static-site.py
+
+# Netlify specific files
+netlify.toml

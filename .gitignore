@@ -51,11 +51,19 @@ Thumbs.db
 # Logs
 *.log
 
-# Media files (if you don't want to commit uploaded files)
-# media/
+# Media files (uploaded files - use Cloudinary for production)
+media/
 
-# Static files (generated)
-# staticfiles/
+# Static files (generated during collectstatic)
+staticfiles/
+
+# Additional deployment exclusions
+*.sqlite3
+node_modules/
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
 
 # Backup files
 *.bak
